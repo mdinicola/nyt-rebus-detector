@@ -1,0 +1,28 @@
+*.code-workspace
+
+# Node / Frontend artifacts
+node_modules/
+.pnpm-store/
+dist/
+dist-ssr/
+*.local
+
+# Python / Backend artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+ENV/
+env/
+
+# Vercel & Environment local files
+.vercel/
+.env
+.env.*
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
