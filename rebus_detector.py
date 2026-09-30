@@ -1,5 +1,7 @@
+import argparse
+from datetime import date, datetime
+
 import requests
-from datetime import date
 
 
 def has_rebus(data):
@@ -13,23 +15,47 @@ def has_rebus(data):
             return True
 
     return False
-        
 
-url = (
-   "https://www.nytimes.com/svc/crosswords/v6/"
-   f"puzzle/daily/{date.today():%Y-%m-%d}.json"
-)
 
-# url = "https://www.nytimes.com/svc/crosswords/v6/puzzle/daily/2026-09-24.json"
+def parse_date(value):
+    try:
+        parsed_date = datetime.strptime(value, "%Y-%m-%d").date()
+        if parsed_date.strftime("%Y-%m-%d") != value:
+            raise ValueError
+        return parsed_date
+    except ValueError as error:
+        raise argparse.ArgumentTypeError(
+            "date must be a valid date in yyyy-mm-dd format"
+        ) from error
 
-r = requests.get(
-   url,
-   headers={"X-Games-Auth-Bypass": "true"},
-   timeout=10,
-)
 
-r.raise_for_status()
-data = r.json()
+def main():
+    parser = argparse.ArgumentParser(
+        description="Detect whether a NYT crossword contains a rebus."
+    )
+    parser.add_argument(
+        "--date",
+        type=parse_date,
+        default=date.today(),
+        help="puzzle date in yyyy-mm-dd format (default: today)",
+    )
+    args = parser.parse_args()
 
-#print(data)
-print(has_rebus(data))
+    url = (
+        "https://www.nytimes.com/svc/crosswords/v6/"
+        f"puzzle/daily/{args.date:%Y-%m-%d}.json"
+    )
+    response = requests.get(
+        url,
+        headers={"X-Games-Auth-Bypass": "true"},
+        timeout=10,
+    )
+
+    response.raise_for_status()
+    rebus_result = "Yes" if has_rebus(response.json()) else "No"
+
+    print(f"Does the daily crossword on {args.date:%Y-%m-%d} contain a rebus? {rebus_result}")
+
+
+if __name__ == "__main__":
+    main()
