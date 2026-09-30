@@ -1,10 +1,91 @@
 @import "tailwindcss";
 
+:root {
+  color-scheme: light;
+  --page-background: #f7f7f5;
+  --page-text: #171717;
+  --control-background: #ffffff;
+  --control-border: #d4d4d4;
+  --control-text: #171717;
+  --control-hover: #f5f5f5;
+  --focus-ring: #e5e5e5;
+  --button-background: #171717;
+  --button-hover: #404040;
+  --button-text: #ffffff;
+  --error-text: #525252;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page-background: #0a0a0a;
+  --page-text: #f5f5f5;
+  --control-background: #171717;
+  --control-border: #404040;
+  --control-text: #f5f5f5;
+  --control-hover: #262626;
+  --focus-ring: #404040;
+  --button-background: #f5f5f5;
+  --button-hover: #ffffff;
+  --button-text: #0a0a0a;
+  --error-text: #a3a3a3;
+}
+
 body {
   margin: 0;
+  background: var(--page-background);
 }
 
 button,
 input {
   font: inherit;
+}
+
+.page-shell {
+  background: var(--page-background);
+  color: var(--page-text);
+}
+
+.theme-toggle,
+.date-input {
+  border-color: var(--control-border);
+  background: var(--control-background);
+  color: var(--control-text);
+}
+
+.theme-toggle:hover {
+  background: var(--control-hover);
+}
+
+.theme-toggle {
+  --tw-ring-offset-color: var(--page-background);
+}
+
+.date-input:focus {
+  --tw-ring-color: var(--focus-ring);
+}
+
+.submit-button {
+  background: var(--button-background);
+  color: var(--button-text);
+  --tw-ring-offset-color: var(--page-background);
+}
+
+.submit-button:hover {
+  background: var(--button-hover);
+}
+
+.error-message {
+  color: var(--error-text);
+}
+
+.sun-icon {
+  display: none;
+}
+
+:root[data-theme="dark"] .sun-icon {
+  display: block;
+}
+
+:root[data-theme="dark"] .moon-icon {
+  display: none;
 }

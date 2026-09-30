@@ -1,8 +1,34 @@
 "use client";
 
-import { type SubmitEvent, useState } from "react";
+import { type SubmitEvent, useState, useSyncExternalStore } from "react";
 
 type Result = boolean | null;
+const THEME_STORAGE_KEY = "nyt-rebus-detector-theme";
+
+function subscribeToTheme(callback: () => void) {
+  function handleThemeChange() {
+    document.documentElement.dataset.theme = getThemeSnapshot()
+      ? "dark"
+      : "light";
+    callback();
+  }
+
+  window.addEventListener("storage", handleThemeChange);
+  window.addEventListener("theme-change", handleThemeChange);
+
+  return () => {
+    window.removeEventListener("storage", handleThemeChange);
+    window.removeEventListener("theme-change", handleThemeChange);
+  };
+}
+
+function getThemeSnapshot() {
+  return window.localStorage.getItem(THEME_STORAGE_KEY) === "dark";
+}
+
+function getServerThemeSnapshot() {
+  return false;
+}
 
 function localDateString() {
   const now = new Date();
@@ -13,11 +39,25 @@ function localDateString() {
 }
 
 export default function Home() {
-  const [darkMode, setDarkMode] = useState(false);
+  const darkMode = useSyncExternalStore(
+    subscribeToTheme,
+    getThemeSnapshot,
+    getServerThemeSnapshot,
+  );
   const [date, setDate] = useState(localDateString);
   const [result, setResult] = useState<Result>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  function toggleTheme() {
+    const nextTheme = darkMode ? "light" : "dark";
+    window.localStorage.setItem(
+      THEME_STORAGE_KEY,
+      nextTheme,
+    );
+    document.documentElement.dataset.theme = nextTheme;
+    window.dispatchEvent(new Event("theme-change"));
+  }
 
   async function checkCrossword(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -46,54 +86,42 @@ export default function Home() {
   }
 
   return (
-    <main
-      className={`relative flex min-h-screen items-center justify-center px-6 py-16 transition-colors duration-300 ${
-        darkMode ? "bg-neutral-950 text-neutral-100" : "bg-[#f7f7f5] text-neutral-900"
-      }`}
-      style={{ colorScheme: darkMode ? "dark" : "light" }}
-    >
+    <main className="page-shell relative flex min-h-screen items-center justify-center px-6 py-16 transition-colors duration-300">
       <button
         type="button"
-        onClick={() => setDarkMode((enabled) => !enabled)}
+        onClick={toggleTheme}
         aria-label={`Switch to ${darkMode ? "light" : "dark"} mode`}
         aria-pressed={darkMode}
-        className={`absolute right-5 top-5 rounded-full border p-2.5 shadow-sm transition sm:right-8 sm:top-8 ${
-          darkMode
-            ? "border-neutral-700 bg-neutral-900 text-neutral-200 hover:bg-neutral-800"
-            : "border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-100"
-        } focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2 focus:ring-offset-transparent`}
+        className="theme-toggle absolute right-5 top-5 rounded-full border p-2.5 shadow-sm transition focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2 sm:right-8 sm:top-8"
       >
-        {darkMode ? (
-          <svg
-            aria-hidden="true"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="1.8"
-          >
-            <circle cx="12" cy="12" r="4" />
-            <path
-              strokeLinecap="round"
-              d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"
-            />
-          </svg>
-        ) : (
-          <svg
-            aria-hidden="true"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="1.8"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M20.3 15.7A9 9 0 0 1 8.3 3.7a9 9 0 1 0 12 12Z"
-            />
-          </svg>
-        )}
+        <svg
+          aria-hidden="true"
+          className="sun-icon h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth="1.8"
+        >
+          <circle cx="12" cy="12" r="4" />
+          <path
+            strokeLinecap="round"
+            d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"
+          />
+        </svg>
+        <svg
+          aria-hidden="true"
+          className="moon-icon h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth="1.8"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M20.3 15.7A9 9 0 0 1 8.3 3.7a9 9 0 1 0 12 12Z"
+          />
+        </svg>
       </button>
 
       <section className="w-full max-w-2xl text-center">
@@ -114,20 +142,12 @@ export default function Home() {
             required
             value={date}
             onChange={(event) => setDate(event.target.value)}
-            className={`min-w-0 flex-1 rounded-lg border px-4 py-3 shadow-sm outline-none transition ${
-              darkMode
-                ? "border-neutral-700 bg-neutral-900 text-neutral-100 focus:border-neutral-500 focus:ring-neutral-700"
-                : "border-neutral-300 bg-white text-neutral-900 focus:border-neutral-500 focus:ring-neutral-200"
-            } focus:ring-2`}
+            className="date-input min-w-0 flex-1 rounded-lg border px-4 py-3 shadow-sm outline-none transition focus:border-neutral-500 focus:ring-2"
           />
           <button
             type="submit"
             disabled={!date || loading}
-            className={`rounded-lg px-6 py-3 font-medium shadow-sm transition focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${
-              darkMode
-                ? "bg-neutral-100 text-neutral-950 hover:bg-white focus:ring-offset-neutral-950"
-                : "bg-neutral-900 text-white hover:bg-neutral-700 focus:ring-offset-[#f7f7f5]"
-            }`}
+            className="submit-button rounded-lg px-6 py-3 font-medium shadow-sm transition focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? "Checking…" : "Go"}
           </button>
@@ -144,9 +164,7 @@ export default function Home() {
             </p>
           )}
           {error && (
-            <p className={`text-sm ${darkMode ? "text-neutral-400" : "text-neutral-600"}`}>
-              {error}
-            </p>
+            <p className="error-message text-sm">{error}</p>
           )}
         </div>
       </section>
