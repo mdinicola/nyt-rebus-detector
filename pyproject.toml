@@ -1,0 +1,8 @@
+[project]
+name = "nyt-crossword-rebus-detector"
+version = "0.0.0"
+description = "Outputs if a dated NYT Crossword contains a rebus"
+requires-python = ">=3.14"
+dependencies = [
+    "requests>=2.34.2"
+]
