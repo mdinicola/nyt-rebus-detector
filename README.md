@@ -1,10 +1,25 @@
 # nyt-rebus-detector
-Detects if a NYT crossword contains a rebus
+
+Detects if a NYT crossword contains a rebus. The web app sends NYT requests
+through a server-side Next.js route to avoid browser CORS restrictions.
+
 A rebus will be found if any of the following conditions are met:
+
 - a cell solution contains more than one character
 - moreAnswers is included in the cell solution.  For example, leaving the cell blank
 
-## Usage
+## Web app
+
+Install dependencies and start the development server:
+
+```powershell
+npm install
+npm run dev
+```
+
+Then open `http://localhost:3000`.
+
+## Python script
 
 Check today's crossword:
 
