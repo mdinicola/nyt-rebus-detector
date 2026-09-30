@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { type SubmitEvent, useState } from "react";
 
 type Result = boolean | null;
 
@@ -18,7 +18,7 @@ export default function Home() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function checkCrossword(event: FormEvent<HTMLFormElement>) {
+  async function checkCrossword(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     setResult(null);
     setError("");
