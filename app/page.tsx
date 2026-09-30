@@ -57,13 +57,43 @@ export default function Home() {
         onClick={() => setDarkMode((enabled) => !enabled)}
         aria-label={`Switch to ${darkMode ? "light" : "dark"} mode`}
         aria-pressed={darkMode}
-        className={`absolute right-5 top-5 rounded-full border px-4 py-2 text-sm font-medium shadow-sm transition sm:right-8 sm:top-8 ${
+        className={`absolute right-5 top-5 rounded-full border p-2.5 shadow-sm transition sm:right-8 sm:top-8 ${
           darkMode
             ? "border-neutral-700 bg-neutral-900 text-neutral-200 hover:bg-neutral-800"
             : "border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-100"
         } focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2 focus:ring-offset-transparent`}
       >
-        {darkMode ? "Light mode" : "Dark mode"}
+        {darkMode ? (
+          <svg
+            aria-hidden="true"
+            className="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="1.8"
+          >
+            <circle cx="12" cy="12" r="4" />
+            <path
+              strokeLinecap="round"
+              d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"
+            />
+          </svg>
+        ) : (
+          <svg
+            aria-hidden="true"
+            className="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="1.8"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M20.3 15.7A9 9 0 0 1 8.3 3.7a9 9 0 1 0 12 12Z"
+            />
+          </svg>
+        )}
       </button>
 
       <section className="w-full max-w-2xl text-center">
