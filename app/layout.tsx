@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import Footer from "./components/footer";
+import ThemeToggle from "./components/theme-toggle";
 import "./globals.css";
 
 const themeScript = `
@@ -20,7 +22,13 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body>{children}</body>
+      <body>
+        <div className="site-shell flex min-h-screen flex-col">
+          <ThemeToggle />
+          {children}
+          <Footer />
+        </div>
+      </body>
     </html>
   );
 }
