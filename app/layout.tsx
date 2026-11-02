@@ -23,7 +23,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body>
-        <div className="site-shell flex min-h-screen flex-col">
+        <div className="site-shell flex min-h-screen min-h-dvh flex-col">
           <ThemeToggle />
           {children}
           <Footer />

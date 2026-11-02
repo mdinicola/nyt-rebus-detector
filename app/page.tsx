@@ -45,14 +45,14 @@ export default function Home() {
   }
 
   return (
-    <main className="page-shell flex flex-1 items-center justify-center px-6 py-16 transition-colors duration-300">
+    <main className="home-page page-shell flex min-h-0 flex-1 items-center justify-center px-6 py-8 transition-colors duration-300 sm:py-16">
       <section className="w-full max-w-2xl text-center">
         <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-5xl">
           Does the NYT crossword contain a rebus?
         </h1>
 
         <form
-          className="mx-auto mt-10 flex w-full max-w-sm items-stretch gap-3"
+          className="mx-auto mt-6 flex w-full max-w-sm items-stretch gap-3 sm:mt-10"
           onSubmit={checkCrossword}
         >
           <label className="sr-only" htmlFor="crossword-date">
@@ -75,7 +75,7 @@ export default function Home() {
           </button>
         </form>
 
-        <div className="mt-10 min-h-12" aria-live="polite">
+        <div className="mt-6 min-h-12 sm:mt-10" aria-live="polite">
           {result !== null && (
             <p
               className={`text-4xl font-semibold ${
