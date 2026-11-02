@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   experimental: {
     agentUpgrade: "security",
   },
+  allowedDevOrigins: process.env.DEV_ALLOWED_ORIGIN
+    ? [process.env.DEV_ALLOWED_ORIGIN]
+    : [],
 };
 
 export default nextConfig;

@@ -5,24 +5,25 @@ import { useSyncExternalStore } from "react";
 const THEME_STORAGE_KEY = "nyt-rebus-detector-theme";
 
 function subscribeToTheme(callback: () => void) {
-  function handleThemeChange() {
-    document.documentElement.dataset.theme = getThemeSnapshot()
-      ? "dark"
-      : "light";
+  function handleStorageChange(event: StorageEvent) {
+    if (event.key !== THEME_STORAGE_KEY) return;
+
+    document.documentElement.dataset.theme =
+      event.newValue === "dark" ? "dark" : "light";
     callback();
   }
 
-  window.addEventListener("storage", handleThemeChange);
-  window.addEventListener("theme-change", handleThemeChange);
+  window.addEventListener("storage", handleStorageChange);
+  window.addEventListener("theme-change", callback);
 
   return () => {
-    window.removeEventListener("storage", handleThemeChange);
-    window.removeEventListener("theme-change", handleThemeChange);
+    window.removeEventListener("storage", handleStorageChange);
+    window.removeEventListener("theme-change", callback);
   };
 }
 
 function getThemeSnapshot() {
-  return window.localStorage.getItem(THEME_STORAGE_KEY) === "dark";
+  return document.documentElement.dataset.theme === "dark";
 }
 
 function getServerThemeSnapshot() {
@@ -38,7 +39,14 @@ export default function ThemeToggle() {
 
   function toggleTheme() {
     const nextTheme = darkMode ? "light" : "dark";
-    window.localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+
+    try {
+      window.localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+    } catch {
+      // Some mobile browsers disable storage. The theme should still work for
+      // the current page even when the preference cannot be persisted.
+    }
+
     document.documentElement.dataset.theme = nextTheme;
     window.dispatchEvent(new Event("theme-change"));
   }
