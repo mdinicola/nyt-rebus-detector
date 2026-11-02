@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "About | NYT Crossword Rebus Detector",
-  description: "Learn about crossword rebuses and why this detector exists.",
+  description: "General information about the NYT Crossword Rebus Detector",
 };
 
 export default function AboutPage() {
@@ -20,19 +20,24 @@ export default function AboutPage() {
         <section>
           <h2>What is a rebus?</h2>
           <p>
-            In a crossword, a rebus is a square that holds more than one letter,
-            a symbol, or another unexpected answer. Rebuses add an extra twist to
-            a puzzle and can be easy to miss when you are getting started.
+            A rebus is a crossword gimmick where a square can hold more than one letter, 
+            a number, or a symbol.
           </p>
-        </section>
-
-        <section>
-          <h2>Why does this site exist?</h2>
           <p>
-            Sometimes you want a small hint without giving away the puzzle. This
-            site answers one question only: whether a dated New York Times daily
-            crossword contains a rebus. It does not reveal the answer or where
-            the rebus appears.
+            For example, let&apos;s say a clue is &quot;Source of morning caffeine&quot; and there are 5 squares.  
+            The answer is &quot;COFFEE&quot; but that&apos;s too long and doesn&apos;t fit into 5 squares.
+          </p>
+          <p>
+            The rebus square could contain &quot;CO&quot; while the rest of the 4 tiles 
+            contain &quot;F&quot;, &quot;F&quot;, &quot;E&quot;, &quot;E&quot;.  
+          </p>
+          <p>
+            Note that this is just an example for illustrative purposes.  A rebus square is not guaranteed
+            to occur at the beginning of the answer and can contain any amount of characters.
+          </p>
+          <p>
+            Do rebuses count for both the across and down clue that intersects it?{" "}
+            Not always. It depends on the crossword.
           </p>
         </section>
 
@@ -45,10 +50,20 @@ export default function AboutPage() {
         </section>
 
         <section>
-          <h2>Open source</h2>
+          <h2>Why does this site exist?</h2>
           <p>
-            The source code is available on GitHub for anyone who wants to see
-            how the detector works or suggest an improvement.
+            I am not a fan of rebuses, often opting to skip crosswords where they
+            are present.  Unfortunately, it&apos;s not always clear when a puzzle contains a rebus
+            until you&apos;re actually doing it.  Looking it up online risks spoilers for other 
+            parts of the puzzle.
+          </p>
+          <p>
+            I built this site to give a straightforward answer: <br /> 
+            <strong>Does the selected puzzle contain a rebus?</strong>{" "}Yes or No
+          </p>
+          <p>
+            It doesn&apos;t say where or what the rebus is, just that at least one exists.
+            From that, the player can decide whether to tackle it or skip it and try again the next day.
           </p>
         </section>
       </article>

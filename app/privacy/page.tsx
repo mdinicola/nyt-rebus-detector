@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Privacy | NYT Crossword Rebus Detector",
-  description: "Privacy information for the NYT Crossword Rebus Detector.",
+  description: "Privacy information for the NYT Crossword Rebus Detector",
 };
 
 export default function PrivacyPage() {
@@ -18,29 +18,28 @@ export default function PrivacyPage() {
         </h1>
 
         <section>
-          <h2>No cookies</h2>
+          <h2>Privacy &amp; Tracking</h2>
           <p>
-            This site does not use cookies. It does not include advertising or
-            analytics cookies, and the site itself does not gather personal
-            information about you.
+            This site does not use cookies, advertising, or analytics. 
+            We do not collect, track, or store any personal data from our visitors.
           </p>
         </section>
 
         <section>
-          <h2>Your theme preference</h2>
+          <h2>Browser Local Storage</h2>
           <p>
-            If you choose light or dark mode, that preference is saved in your
-            browser&apos;s local storage. It remains entirely on your device and is
-            not sent to the site or shared with anyone.
+            We use your browser&apos;s local storage solely to remember your UI theme preference (light or dark mode). 
+            This data is stored entirely on your own device, is not transmitted to our servers, 
+            and cannot be used to track or identify you.
           </p>
         </section>
 
         <section>
-          <h2>Hosting</h2>
+          <h2>Hosting &amp; Server Logs</h2>
           <p>
-            This site is hosted on Vercel. As the hosting provider, Vercel may
-            process technical information such as IP addresses to securely
-            operate and deliver the site. You can learn more in the{" "}
+            This site is hosted on Vercel.  As the hosting provider, Vercel automatically processes standard, 
+            temporary infrastructure logs (such as IP addresses, browser types, and request timestamps) 
+            for secure delivery, security, and maintenance purposes.  For more information, see the {" "}
             <a
               href="https://vercel.com/legal/privacy-notice"
               target="_blank"
@@ -49,14 +48,6 @@ export default function PrivacyPage() {
               Vercel Privacy Notice
             </a>
             .
-          </p>
-        </section>
-
-        <section>
-          <h2>Changes</h2>
-          <p>
-            If the site&apos;s privacy practices change, this page will be updated
-            to explain what changed.
           </p>
         </section>
       </article>
