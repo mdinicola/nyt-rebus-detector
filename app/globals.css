@@ -33,6 +33,7 @@
 body {
   margin: 0;
   background: var(--page-background);
+  color: var(--page-text);
 }
 
 button,
@@ -40,9 +41,69 @@ input {
   font: inherit;
 }
 
-.page-shell {
+.page-shell,
+.site-shell {
   background: var(--page-background);
   color: var(--page-text);
+}
+
+.site-footer {
+  border-top: 1px solid var(--control-border);
+  background: var(--page-background);
+  color: var(--error-text);
+}
+
+@media (max-width: 639px) {
+  .home-page {
+    padding-bottom: calc(5rem + env(safe-area-inset-bottom));
+  }
+
+  .home-page + .site-footer {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 20;
+    padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
+  }
+}
+
+.site-footer a,
+.content-page a {
+  text-decoration-color: var(--control-border);
+  text-underline-offset: 0.2em;
+}
+
+.site-footer a:hover,
+.content-page a:hover {
+  color: var(--page-text);
+  text-decoration: underline;
+}
+
+.content-page section {
+  margin-top: 2.5rem;
+}
+
+.content-page h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.content-page p {
+  margin: 0.75rem 0 0;
+  color: var(--error-text);
+  line-height: 1.75;
+}
+
+.content-page p a {
+  color: var(--page-text);
+  text-decoration: underline;
+}
+
+.back-link {
+  color: var(--error-text);
 }
 
 .theme-toggle,
